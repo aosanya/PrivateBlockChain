@@ -4,33 +4,51 @@
 
 const SHA256 = require('crypto-js/sha256');
 
+const Block = require('../Block/Block')
+const events = require('events');
 
-/* ===== Block Class ==============================
-|  Class with a constructor for block 			   |
-|  ===============================================*/
-
-class Block{
-	constructor(data){
-     this.hash = "",
-     this.height = 0,
-     this.body = data,
-     this.time = 0,
-     this.previousBlockHash = ""
-    }
-}
 
 /* ===== Blockchain Class ==========================
 |  Class with a constructor for new blockchain 		|
 |  ================================================*/
 
 class Blockchain{
-  constructor(){
-    this.chain = [];
-    this.addBlock(new Block("First block in the chain - Genesis block"));
+  constructor(storageAdapter){
+    this.storageAdapter = storageAdapter
+    this.storageAdapter.eventEmitter.on('chainLoaded', () => {
+      this.chainLoaded()
+    })
+
+    this.storageAdapter.eventEmitter.on('chainUpdated', () => {
+      this.chainUpdated()
+    })
+  }
+
+  chain(){
+    return this.storageAdapter.data[0]
+  }
+
+  chainLoaded(){
+    console.log('chain Loaded')
+    console.log(this.getBlockHeight())
+
+    if (this.chain().length == 0){
+      this.addBlock(new Block("First block in the chain - Genesis block"));
+    }
+    console.log('- - - - - - - -')
+  }
+
+  chainUpdated(){
+    console.log('chain updated')
+    console.log(this.getBlockHeight())
+    console.log('- - - - - - - -')
   }
 
   // Add new block
   addBlock(newBlock){
+    if (this.storageAdapter.isLoaded === false){
+      throw 'Chain is not yet loaded'
+    }
     // Block height
     newBlock.height = this.chain.length;
     // UTC timestamp
@@ -42,12 +60,12 @@ class Blockchain{
     // Block hash with SHA256 using newBlock and converting to a string
     newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
     // Adding block object to chain
-  	this.chain.push(newBlock);
+  	this.storageAdapter.addData(newBlock);
   }
 
   // Get block height
     getBlockHeight(){
-      return this.chain.length-1;
+      return this.chain().length-1;
     }
 
     // get block
@@ -56,6 +74,7 @@ class Blockchain{
       return JSON.parse(JSON.stringify(this.chain[blockHeight]));
     }
 
+    // to move certain components to block
     // validate block
     validateBlock(blockHeight){
       // get block object
@@ -96,3 +115,5 @@ class Blockchain{
       }
     }
 }
+
+module.exports = Blockchain
