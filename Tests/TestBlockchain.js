@@ -1,5 +1,5 @@
 const Blockchain = require('../Blockchain/Blockchain');
-const Adapter = require('../dBAdapters/levelDb/Adapter');
+const Adapter = require('../storageAdapters/inMemory/Adapter');
 const Block = require('../Block/Block');
 
 let storageAdapter = new Adapter();

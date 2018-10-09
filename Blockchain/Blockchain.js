@@ -15,6 +15,11 @@ const events = require('events');
 class Blockchain{
   constructor(storageAdapter){
     this.storageAdapter = storageAdapter
+    this.wireEvents()
+    this.storageAdapter.loadData()
+  }
+
+  wireEvents(){
     this.storageAdapter.eventEmitter.on('chainLoaded', () => {
       this.chainLoaded()
     })
