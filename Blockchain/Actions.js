@@ -1,5 +1,0 @@
-export const addBlock = 'addBlock'
-export const getBlockHeight = 'getBlockHeight'
-export const getBlock = 'getBlock'
-export const validateBlock = 'validateBlock'
-export const validateChain = 'validateChain'

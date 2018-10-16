@@ -11,12 +11,18 @@ class Adapter{
 
     addData(newData){
         // Adding block object to chain
-        Promise.all([LevelDB.addDataToLevelDB(newData)]).then(() => this.loadData())
+        function addDataComplete(){
+            this.eventEmitter.emit('blockAdded');
+        }
+
+        var boundAddDataComplete = addDataComplete.bind(this);
+        let stringifiedNewData = JSON.stringify(newData);
+        Promise.all([LevelDB.addDataToLevelDB(stringifiedNewData)]).then(() => this.loadData()).then(() => boundAddDataComplete())
     }
 
     loadData(){
         Promise.all([LevelDB.getData()]).then((data) => {
-            this.data = data
+            this.data = data[0]
             if (this.isLoaded == true) {
                 this.eventEmitter.emit('chainUpdated');
             }
@@ -25,6 +31,12 @@ class Adapter{
                 this.eventEmitter.emit('chainLoaded');
             }
         })
+    }
+
+    // get block
+    getBlock(blockHeight){
+        // return object as a single string
+        return JSON.parse(this.data[blockHeight].value);
     }
 }
 

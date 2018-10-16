@@ -6,15 +6,18 @@ class Adapter{
         this.eventEmitter = new events.EventEmitter();
         this.isLoaded = false
         this.data = undefined
+
     }
 
     addData(newData){
         // Adding block object to chain
-        this.data[0].push(newData)
+        this.data.push(newData)
+        this.eventEmitter.emit('chainUpdated');
+        this.eventEmitter.emit('blockAdded');
     }
 
     loadData(){
-        this.data = [[]]
+        this.data = []
         if (this.isLoaded == true) {
             this.eventEmitter.emit('chainUpdated');
         }
@@ -23,6 +26,13 @@ class Adapter{
             this.eventEmitter.emit('chainLoaded');
         }
     }
+
+    // get block
+    getBlock(blockHeight){
+        // return object as a single string
+        return JSON.parse(JSON.stringify(this.data[blockHeight]));
+    }
+
 }
 
 module.exports = Adapter

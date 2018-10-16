@@ -18,6 +18,7 @@ const levelDB =  require('./levelSandbox')
         reject(err)
       })
       .on('close', function () {
+
         resolve(dataArray);
       });
     });
@@ -25,6 +26,7 @@ const levelDB =  require('./levelSandbox')
 
   // Add data to levelDB with key/value pair
   module.exports.addLevelDBData = (key,value) => {
+
     return new Promise(function(resolve, reject) {
       db.put(key, value, function(err) {
         if (err) reject(err)
@@ -38,7 +40,6 @@ const levelDB =  require('./levelSandbox')
     return new Promise(function(resolve, reject) {
       db.get(key, function(err, value) {
         if (err) reject(err);
-        console.log('Value = ' + value);
         resolve(value)
       })
     });
@@ -54,7 +55,6 @@ const levelDB =  require('./levelSandbox')
         reject(err)
       }).on('close', function() {
         levelDB.addLevelDBData(i, value).then(function() {
-          console.log('test 3')
           resolve()
         }, function(err) {
           reject(err)
@@ -75,13 +75,18 @@ const levelDB =  require('./levelSandbox')
 |     ( new block every 10 minutes )                                           |
 |  ===========================================================================*/
 
+ console.log(levelDB.getData(0).then((data) => showKey(data)))
+
+function showKey(data){
+  console.log(data)
+}
 
 // (function theLoop (i) {
 //   setTimeout(function () {
-//     addDataToLevelDB('Testing data').then(showChain())
-//     if (--i)   theLoop(i)
+//     levelDB.addDataToLevelDB(new);
+//     if (--i) theLoop(i)
 //   }, 1000);
-// })(1);
+// })(10);
 
 // showData()
 

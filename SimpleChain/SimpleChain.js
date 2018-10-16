@@ -8,15 +8,18 @@ const Block = require('../Block/Block')
 const events = require('events');
 
 
-/* ===== Blockchain Class ==========================
-|  Class with a constructor for new blockchain 		|
+/* ===== SimpleChain Class ==========================
+|  Class with a constructor for new SimpleChain 		|
 |  ================================================*/
 
-class Blockchain{
+class SimpleChain{
   constructor(storageAdapter){
     this.storageAdapter = storageAdapter
     this.wireEvents()
-    this.storageAdapter.loadData()
+    this.storageAdapter.loadData() // This is done here so that the class can recieve events
+    this.chain = this.storageAdapter.data
+    this.isAddingBlock = false
+    this.mempool = []
   }
 
   wireEvents(){
@@ -27,61 +30,79 @@ class Blockchain{
     this.storageAdapter.eventEmitter.on('chainUpdated', () => {
       this.chainUpdated()
     })
+
+    this.storageAdapter.eventEmitter.on('blockAdded', () => {
+      this.blockAdded()
+    })
   }
 
-  chain(){
-    return this.storageAdapter.data[0]
-  }
-
+  // Triggered when the chain is initially loaded
   chainLoaded(){
-    console.log('chain Loaded')
-    console.log(this.getBlockHeight())
-
-    if (this.chain().length == 0){
+    this.chain = this.storageAdapter.data
+    if (this.chain == undefined || this.chain.length == 0){
       this.addBlock(new Block("First block in the chain - Genesis block"));
     }
-    console.log('- - - - - - - -')
   }
 
+  // Triggered when the chain is updated
   chainUpdated(){
-    console.log('chain updated')
-    console.log(this.getBlockHeight())
-    console.log('- - - - - - - -')
+    this.chain = this.storageAdapter.data
+    console.log("block updated")
+  }
+
+  // checks if BlockChain is loaded
+  checkIfChainIsLoaded(){
+    if (this.storageAdapter.isLoaded == false){
+      throw 'Chain is not yet loaded'
+    }
+  }
+
+  // Triggered when a new block is 'mined'
+  blockAdded(){
+    console.log("block added!")
+    this.isAddingBlock = false
+    //TO DO : CHeck if there are new blocks to process in mempool
   }
 
   // Add new block
   addBlock(newBlock){
-    if (this.storageAdapter.isLoaded === false){
-      throw 'Chain is not yet loaded'
-    }
-    // Block height
-    newBlock.height = this.chain.length;
-    // UTC timestamp
-    newBlock.time = new Date().getTime().toString().slice(0,-3);
-    // previous block hash
-    if(this.chain.length>0){
-      newBlock.previousBlockHash = this.chain[this.chain.length-1].hash;
-    }
-    // Block hash with SHA256 using newBlock and converting to a string
-    newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
-    // Adding block object to chain
-  	this.storageAdapter.addData(newBlock);
+      if (this.isAddingBlock == true){
+        this.mempool.push(newBlock)
+        return
+      }
+      if (this.storageAdapter.isLoaded == false){
+        throw 'Chain is not yet loaded' // A loaded chain will always have a genesis block
+      }
+      this.isAddingBlock = true
+      // Block height
+      newBlock.height = this.getBlockHeight() + 1;
+      // UTC timestamp
+      newBlock.time = new Date().getTime().toString().slice(0,-3);
+      // previous block hash
+      if(this.getBlockHeight() > -1){
+        newBlock.previousBlockHash = this.chain[this.getBlockHeight()].hash;
+      }
+      // Block hash with SHA256 using newBlock and converting to a string
+      newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
+      // Adding block object to chain
+      this.storageAdapter.addData(newBlock);
   }
 
   // Get block height
     getBlockHeight(){
-      return this.chain().length-1;
+      return this.chain !== undefined ? this.chain.length-1 : -1;
     }
 
     // get block
     getBlock(blockHeight){
       // return object as a single string
-      return JSON.parse(JSON.stringify(this.chain[blockHeight]));
+      return this.storageAdapter.getBlock(blockHeight)
     }
 
     // to move certain components to block
     // validate block
     validateBlock(blockHeight){
+      this.checkIfChainIsLoaded()
       // get block object
       let block = this.getBlock(blockHeight);
       // get block hash
@@ -99,8 +120,11 @@ class Blockchain{
         }
     }
 
+
+
    // Validate blockchain
     validateChain(){
+      this.checkIfChainIsLoaded()
       let errorLog = [];
       for (var i = 0; i < this.chain.length-1; i++) {
         // validate block
@@ -119,6 +143,11 @@ class Blockchain{
         console.log('No errors detected');
       }
     }
+
+  // Describe
+  status(){
+    return {"block height":this.getBlockHeight(), "mempool count" : this.mempool.length}
+  }
 }
 
-module.exports = Blockchain
+module.exports = SimpleChain

@@ -6,6 +6,14 @@ Blockchain has the potential to change the way that the world approaches data. D
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
+#Cloning
+To clone this project from github, use the following link:
+https://github.com/aosanya/PrivateBlockChain.git
+
+#Or Download Zip
+To download the project from github, use the following link:
+https://github.com/aosanya/PrivateBlockChain/archive/master.zip
+
 ### Prerequisites
 
 Installing Node and NPM is pretty straightforward using the installer package available from the (Node.js® web site)[https://nodejs.org/en/].
@@ -59,3 +67,4 @@ for (var i = 0; i < inducedErrorBlocks.length; i++) {
 ```
 blockchain.validateChain();
 ```
+A test run can be found at : SimpleTest\UdacityTestLevelDb.js
