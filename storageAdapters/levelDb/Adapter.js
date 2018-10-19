@@ -36,8 +36,12 @@ class Adapter{
     // get block
     getBlock(blockHeight){
         // return object as a single string
-        return JSON.parse(this.data[blockHeight].value);
-    }
+        let block = this.data.filter((k) => k.key == blockHeight)[0]
+        if (block !== undefined){
+            return JSON.parse(block.value);
+        }
+        return nil
+   }
 }
 
 module.exports = Adapter

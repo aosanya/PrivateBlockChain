@@ -28,6 +28,7 @@ class SimpleChain{
     })
 
     this.storageAdapter.eventEmitter.on('chainUpdated', () => {
+      this.chain = this.storageAdapter.data
       this.chainUpdated()
     })
 
@@ -47,7 +48,6 @@ class SimpleChain{
   // Triggered when the chain is updated
   chainUpdated(){
     this.chain = this.storageAdapter.data
-    console.log("block updated")
   }
 
   // checks if BlockChain is loaded
@@ -59,7 +59,6 @@ class SimpleChain{
 
   // Triggered when a new block is 'mined'
   blockAdded(){
-    console.log("block added!")
     this.isAddingBlock = false
     //TO DO : CHeck if there are new blocks to process in mempool
   }
