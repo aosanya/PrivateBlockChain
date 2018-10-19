@@ -6,15 +6,15 @@ const SHA256 = require('crypto-js/sha256');
 
 const Block = require('../Block/Block')
 const events = require('events');
-
+const Adapter = require('../storageAdapters/levelDb/Adapter');
 
 /* ===== SimpleChain Class ==========================
 |  Class with a constructor for new SimpleChain 		|
 |  ================================================*/
 
 class SimpleChain{
-  constructor(storageAdapter){
-    this.storageAdapter = storageAdapter
+  constructor(){
+    this.storageAdapter = new Adapter();
     this.wireEvents()
     this.storageAdapter.loadData() // This is done here so that the class can recieve events
     this.chain = this.storageAdapter.data

@@ -1,9 +1,7 @@
 const SimpleChain = require('../SimpleChain');
-const Adapter = require('../../storageAdapters/LevelDb/Adapter');
 const Block = require('../../Block/Block');
 
-let storageAdapter = new Adapter();
-let chain = new SimpleChain(storageAdapter);
+let chain = new SimpleChain();
 
 (function theLoop (i) {
     setTimeout(function () {

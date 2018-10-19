@@ -36,5 +36,5 @@ npm install level --save
 ## Testing
 
 To test code:
-1: Open a command prompt or shell terminal after install node.js.
+1: Open a command prompt or shell terminal after installing node.js.
 2: run : node SimpleChain/Tests/UdacityTestLevelDb.js
