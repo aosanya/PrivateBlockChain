@@ -9,6 +9,7 @@ class Block{
      this.body = data,
      this.time = 0,
      this.previousBlockHash = ""
+     this.poolingTime = 0;
     }
 }
 

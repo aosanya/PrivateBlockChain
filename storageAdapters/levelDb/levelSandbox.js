@@ -75,11 +75,11 @@ const levelDB =  require('./levelSandbox')
 |     ( new block every 10 minutes )                                           |
 |  ===========================================================================*/
 
- console.log(levelDB.getData(0).then((data) => showKey(data)))
+//  console.log(levelDB.getData(0).then((data) => showKey(data)))
 
-function showKey(data){
-  console.log(data)
-}
+// function showKey(data){
+//   console.log(data)
+// }
 
 // (function theLoop (i) {
 //   setTimeout(function () {

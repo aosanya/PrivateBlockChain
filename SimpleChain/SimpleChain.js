@@ -3,7 +3,6 @@
 |  =========================================================*/
 
 const SHA256 = require('crypto-js/sha256');
-
 const Block = require('../Block/Block')
 const events = require('events');
 const Adapter = require('../storageAdapters/levelDb/Adapter');
@@ -60,13 +59,31 @@ class SimpleChain{
   // Triggered when a new block is 'mined'
   blockAdded(){
     this.isAddingBlock = false
-    //TO DO : CHeck if there are new blocks to process in mempool
+    this.mempool.shift()
+    this.processMempool()
+  }
+
+  processMempool(){
+    if (this.isAddingBlock == true){
+      return
+    }
+
+    if (this.mempool.length == 0){
+      return
+    }
+
+    let nextBlock = this.mempool[0]
+    this.addBlock(nextBlock)
   }
 
   // Add new block
   addBlock(newBlock){
-      if (this.isAddingBlock == true){
+      if (newBlock.poolingTime == 0){
+        newBlock.poolingTime = new Date().getTime().toString().slice(0,-3);
         this.mempool.push(newBlock)
+      }
+
+      if (this.isAddingBlock == true){
         return
       }
       if (this.storageAdapter.isLoaded == false){
