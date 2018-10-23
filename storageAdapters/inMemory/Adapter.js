@@ -1,6 +1,5 @@
 const events = require('events');
 
-
 class Adapter{
     constructor(){
         this.eventEmitter = new events.EventEmitter();

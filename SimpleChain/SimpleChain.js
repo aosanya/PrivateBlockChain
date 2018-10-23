@@ -69,6 +69,7 @@ class SimpleChain{
     }
 
     if (this.mempool.length == 0){
+
       return
     }
 
@@ -84,7 +85,7 @@ class SimpleChain{
       }
 
       if (this.isAddingBlock == true){
-        return
+        return this.status()
       }
       if (this.storageAdapter.isLoaded == false){
         throw 'Chain is not yet loaded' // A loaded chain will always have a genesis block
@@ -102,6 +103,7 @@ class SimpleChain{
       newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
       // Adding block object to chain
       this.storageAdapter.addData(newBlock);
+      return newBlock
   }
 
   // Get block height
@@ -162,7 +164,15 @@ class SimpleChain{
 
   // Describe
   status(){
-    return {"block height":this.getBlockHeight(), "mempool count" : this.mempool.length}
+    var status = {}
+     if (this.storageAdapter.isLoaded == false){
+      status["status"] = "Chain is loading."
+      return status
+    }
+
+    status["block height"] = this.getBlockHeight()
+    status["mempool count"] = this.mempool.length
+    return status
   }
 }
 

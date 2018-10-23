@@ -1,6 +1,6 @@
 # Blockchain Data
 
-Blockchain has the potential to change the way that the world approaches data. Develop Blockchain skills by understanding the data model behind Blockchain by developing your own simplified private blockchain.
+Blockchain has the potential to change the way that the world approaches data. Develop Blockchain skills by understanding the data model behind Blockchain by developing your own simplified private blockchain. This chain is uses LevelDb as a backend and express as the api.
 
 ## Getting Started
 
@@ -32,8 +32,15 @@ npm install crypto-js --save
 ```
 npm install level --save
 ```
-
-## Testing
+- Install express with --save flag
+```
+npm install express --save
+```
+- Install body-parser with --save flag
+```
+npm install body-parser --save
+```
+## Testing The Blockchain
 
 To test code:
 1: Open a command prompt or shell terminal after installing node.js.
@@ -76,3 +83,40 @@ chain.chain[2] = { key: '2', value: '{"hash":"hacked!!!!","height":0,"body":"hac
 ```
 chain.validateChain();
 ```
+
+
+## Testing The Blockchain Api
+
+To test code:
+1: Open a command prompt or shell terminal
+2: Start the server
+```
+node app.js
+```
+You should get the following reponse:
+"SimpleChain listening on port <3000>!"
+3: To test the Get Block end point, enter the following command replacing 3000 with your actual port:
+```
+curl http://localhost:3000/block/0
+```
+You should get a response similar to:
+{
+	"hash":"d808717540278674948f35a201d34429d67aae2ecb0467cac643275b497925d2",
+	"height":0,
+	"body":"First block in the chain - Genesis block",
+	"time":"1540144474",
+	"previousBlockHash":"",
+	"poolingTime":"1540144474"
+}
+4: To test the POST Block Endpoint, enter the following command replacing 3000 with your actual port:
+```
+curl -d data=test1  http://localhost:3000/block
+```
+You should get a response(of the new block) similar to:
+{
+	"hash":"db1f3ee0660130d323f7247d1a17f0943b9144f03bfa0360567243ce9f3e8cb8",
+	"height":14,
+	"body":"Test Block",
+	"time":"1540319399",
+	"poolingTime":"1540319399"
+}
