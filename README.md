@@ -94,10 +94,10 @@ To test code:
 node app.js
 ```
 You should get the following reponse:
-"SimpleChain listening on port <3000>!"
-3: To test the Get Block end point, enter the following command replacing 3000 with your actual port:
+"SimpleChain listening on port <8000>!"
+3: To test the Get Block end point, enter the following command replacing 8000 with your actual port:
 ```
-curl http://localhost:3000/block/0
+curl http://localhost:8000/block/0
 ```
 You should get a response similar to:
 {
@@ -108,9 +108,9 @@ You should get a response similar to:
 	"previousBlockHash":"",
 	"poolingTime":"1540144474"
 }
-4: To test the POST Block Endpoint, enter the following command replacing 3000 with your actual port:
+4: To test the POST Block Endpoint, enter the following command replacing 8000 with your actual port:
 ```
-curl -d data=test1  http://localhost:3000/block
+curl -d data=test1  http://localhost:8000/block
 ```
 You should get a response(of the new block) similar to:
 {

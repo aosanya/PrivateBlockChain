@@ -58,8 +58,8 @@ class SimpleChain{
 
   // Triggered when a new block is 'mined'
   blockAdded(){
-    this.isAddingBlock = false
     this.mempool.shift()
+    this.isAddingBlock = false
     this.processMempool()
   }
 
@@ -69,24 +69,21 @@ class SimpleChain{
     }
 
     if (this.mempool.length == 0){
-
+      this.isAddingBlock = false
       return
     }
 
     let nextBlock = this.mempool[0]
-    this.addBlock(nextBlock)
+    this.addBlock(nextBlock.block)
   }
 
   // Add new block
   addBlock(newBlock){
-      if (newBlock.poolingTime == 0){
-        newBlock.poolingTime = new Date().getTime().toString().slice(0,-3);
-        this.mempool.push(newBlock)
-      }
-
-      if (this.isAddingBlock == true){
+      if (this.isAddingBlock == true || this.mempool.length > 0){
+        this.mempool.push({time : new Date().getTime().toString().slice(0,-3), block : newBlock})
         return this.status()
       }
+
       if (this.storageAdapter.isLoaded == false){
         throw 'Chain is not yet loaded' // A loaded chain will always have a genesis block
       }

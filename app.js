@@ -2,7 +2,7 @@ const express = require('express')
 const Block = require('./Block/Block');
 const simplechainapi = require('./SimpleChain/api')
 const app = express()
-const port = 3000
+const port = 8000
 
 //Configure bodyParser as Middleware
 var bodyParser = require("body-parser");

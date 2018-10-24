@@ -17,7 +17,7 @@ let chain = new SimpleChain();
         chain.addBlock(blockTest);
         i++;
         if (i < 10) theLoop(i);
-    }, 1000);
+    }, 200);
   })(0);
 
 setTimeout(function () {
