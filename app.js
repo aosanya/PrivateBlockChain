@@ -20,23 +20,24 @@ app.get('/', (req, res) => {
 
 app.get('/block/:blockheight', (req, res) => {
     //secure this from injection
-    simplechainapi.getBlock(0).then((block) => {
+    simplechainapi.getBlock(req.params.blockheight).then((block) => {
         res.send(block)
     })
     }
 );
 
 app.post('/block',function(req,res){
-    var data=req.body.data;
+    var data=req.body.body;
     if (data == undefined) {
         res.status = 412;
         res.end("412!");
     }
-
-    let newBlock = new Block("Test Block");
-     simplechainapi.addBlock(newBlock).then((response) => {
-        res.send(response)
-    })
+    else{
+        let newBlock = new Block("Test Block");
+        simplechainapi.addBlock(newBlock).then((response) => {
+            res.send(response)
+        })
+    }
 });
 
 

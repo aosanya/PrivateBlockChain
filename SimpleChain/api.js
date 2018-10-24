@@ -10,6 +10,7 @@ module.exports.getStatus = () => {
 }
 
 module.exports.getBlock = (blockheight) => {
+
     return new Promise(function(resolve, reject) {
         resolve(chain.getBlock(blockheight));
     });

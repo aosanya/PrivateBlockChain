@@ -16,7 +16,7 @@ class SimpleChain{
     this.storageAdapter = new Adapter();
     this.wireEvents()
     this.storageAdapter.loadData() // This is done here so that the class can recieve events
-    this.chain = this.storageAdapter.data
+    this.chain = []
     this.isAddingBlock = false
     this.mempool = []
   }
@@ -41,12 +41,15 @@ class SimpleChain{
     this.chain = this.storageAdapter.data
     if (this.chain == undefined || this.chain.length == 0){
       this.addBlock(new Block("First block in the chain - Genesis block"));
+      return
     }
+    this.processMempool()
   }
 
   // Triggered when the chain is updated
   chainUpdated(){
     this.chain = this.storageAdapter.data
+    this.processMempool()
   }
 
   // checks if BlockChain is loaded
@@ -60,7 +63,6 @@ class SimpleChain{
   blockAdded(){
     this.mempool.shift()
     this.isAddingBlock = false
-    this.processMempool()
   }
 
   processMempool(){
@@ -79,13 +81,14 @@ class SimpleChain{
 
   // Add new block
   addBlock(newBlock){
-      if (this.isAddingBlock == true || this.mempool.length > 0){
+      if (this.isAddingBlock == true){
         this.mempool.push({time : new Date().getTime().toString().slice(0,-3), block : newBlock})
         return this.status()
       }
 
       if (this.storageAdapter.isLoaded == false){
-        throw 'Chain is not yet loaded' // A loaded chain will always have a genesis block
+        this.mempool.push({time : new Date().getTime().toString().slice(0,-3), block : newBlock})
+        return this.status()
       }
       this.isAddingBlock = true
       // Block height
@@ -105,7 +108,7 @@ class SimpleChain{
 
   // Get block height
     getBlockHeight(){
-      return this.chain !== undefined ? this.chain.length-1 : -1;
+      return this.chain !== undefined ? this.chain.length - 1 : -1;
     }
 
     // get block
@@ -164,6 +167,7 @@ class SimpleChain{
     var status = {}
      if (this.storageAdapter.isLoaded == false){
       status["status"] = "Chain is loading."
+      status["mempool count"] = this.mempool.length
       return status
     }
 

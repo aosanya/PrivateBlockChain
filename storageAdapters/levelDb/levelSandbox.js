@@ -18,7 +18,6 @@ const levelDB =  require('./levelSandbox')
         reject(err)
       })
       .on('close', function () {
-
         resolve(dataArray);
       });
     });

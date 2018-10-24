@@ -105,18 +105,16 @@ You should get a response similar to:
 	"height":0,
 	"body":"First block in the chain - Genesis block",
 	"time":"1540144474",
-	"previousBlockHash":"",
-	"poolingTime":"1540144474"
+	"previousBlockHash":""
 }
 4: To test the POST Block Endpoint, enter the following command replacing 8000 with your actual port:
 ```
-curl -d data=test1  http://localhost:8000/block
+curl -d body=test1  http://localhost:8000/block
 ```
 You should get a response(of the new block) similar to:
 {
 	"hash":"db1f3ee0660130d323f7247d1a17f0943b9144f03bfa0360567243ce9f3e8cb8",
 	"height":14,
 	"body":"Test Block",
-	"time":"1540319399",
-	"poolingTime":"1540319399"
+	"time":"1540319399"
 }
