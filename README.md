@@ -115,6 +115,6 @@ You should get a response(of the new block) similar to:
 {
 	"hash":"db1f3ee0660130d323f7247d1a17f0943b9144f03bfa0360567243ce9f3e8cb8",
 	"height":14,
-	"body":"Test Block",
+	"body":"test1",
 	"time":"1540319399"
 }

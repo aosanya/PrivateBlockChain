@@ -6,6 +6,7 @@ const SHA256 = require('crypto-js/sha256');
 const Block = require('../Block/Block')
 const events = require('events');
 const Adapter = require('../storageAdapters/levelDb/Adapter');
+const Mempool = require('./Mempool')
 
 /* ===== SimpleChain Class ==========================
 |  Class with a constructor for new SimpleChain 		|
@@ -18,7 +19,7 @@ class SimpleChain{
     this.storageAdapter.loadData() // This is done here so that the class can recieve events
     this.chain = []
     this.isAddingBlock = false
-    this.mempool = []
+    this.mempool = new Mempool
   }
 
   wireEvents(){
@@ -61,7 +62,7 @@ class SimpleChain{
 
   // Triggered when a new block is 'mined'
   blockAdded(){
-    this.mempool.shift()
+    this.mempool.pool.shift()
     this.isAddingBlock = false
   }
 
@@ -70,24 +71,24 @@ class SimpleChain{
       return
     }
 
-    if (this.mempool.length == 0){
+    if (this.mempool.pool.length == 0){
       this.isAddingBlock = false
       return
     }
 
-    let nextBlock = this.mempool[0]
+    let nextBlock = this.mempool.pool[0]
     this.addBlock(nextBlock.block)
   }
 
   // Add new block
   addBlock(newBlock){
       if (this.isAddingBlock == true){
-        this.mempool.push({time : new Date().getTime().toString().slice(0,-3), block : newBlock})
+        this.mempool.pool.push({time : new Date().getTime().toString().slice(0,-3), block : newBlock})
         return this.status()
       }
 
       if (this.storageAdapter.isLoaded == false){
-        this.mempool.push({time : new Date().getTime().toString().slice(0,-3), block : newBlock})
+        this.mempool.pool.push({time : new Date().getTime().toString().slice(0,-3), block : newBlock})
         return this.status()
       }
       this.isAddingBlock = true
@@ -167,12 +168,12 @@ class SimpleChain{
     var status = {}
      if (this.storageAdapter.isLoaded == false){
       status["status"] = "Chain is loading."
-      status["mempool count"] = this.mempool.length
+      status["mempool count"] = this.mempool.pool.length
       return status
     }
 
     status["block height"] = this.getBlockHeight()
-    status["mempool count"] = this.mempool.length
+    status["mempool count"] = this.mempool.pool.length
     return status
   }
 }
