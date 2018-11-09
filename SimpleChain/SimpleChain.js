@@ -44,6 +44,8 @@ class SimpleChain{
       this.addBlock(new Block("First block in the chain - Genesis block"));
       return
     }
+
+
     this.processMempool()
   }
 
@@ -97,8 +99,9 @@ class SimpleChain{
       // UTC timestamp
       newBlock.time = new Date().getTime().toString().slice(0,-3);
       // previous block hash
+      console.log(this.getBlockHeight())
       if(this.getBlockHeight() > -1){
-        newBlock.previousBlockHash = this.chain[this.getBlockHeight()].hash;
+        newBlock.previousBlockHash = this.getBlock(this.getBlockHeight()).hash;
       }
       // Block hash with SHA256 using newBlock and converting to a string
       newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
@@ -138,8 +141,6 @@ class SimpleChain{
           return false;
         }
     }
-
-
 
    // Validate blockchain
     validateChain(){

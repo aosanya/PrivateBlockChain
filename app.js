@@ -24,15 +24,22 @@ app.get('/', (req, res) => {
 app.get('/block/:blockheight', (req, res) => {
     //secure this from injection
     simplechainapi.getBlock(req.params.blockheight).then((block) => {
-        res.send(block)
+        if (block == undefined){
+            res.send('Block ' +  req.params.blockheight + ' Does Not Exist')
+        }
+        else{
+            res.send(block)
+        }
     })
     }
 );
 
-
-
 app.post('/block',function(req,res){
     let data=req.body;
+    addBlock(data, res);
+});
+
+var addBlock = function(data, res){
     if (data == undefined) {
         res.status = 412;
         res.end("412!");
@@ -43,8 +50,7 @@ app.post('/block',function(req,res){
             res.send(response)
         })
     }
-});
-
+}
 
 app.get('/requestValidation/:address', (req, res) => {
     let address=req.params.address;
@@ -86,6 +92,43 @@ app.engine('template', jade.__express);
 
 app.get('/registar', function(req, res){
     res.render('registar');
+});
+
+app.post('/registar', function(req, res){
+    fs = require('fs')
+    var data = {}
+
+    console.log(req.body)
+    data.address = req.body.Address;
+    data.star = {}
+
+
+    const RAH = req.body.RAH;
+    const RAM = req.body.RAM;
+    const RASEC = req.body.RASEC;
+    const DecDeg = req.body.DecDeg;
+    const DecMin = req.body.DecMin;
+    const DecSec = req.body.DecSec;
+    const Conste = req.body.Conste;
+    const MAG = req.body.MAG;
+    const Story = new Buffer(req.body.Story).toString('hex');
+
+    data.star.dec =  RAH + '° ' + RAM +  "' " +  RASEC
+    data.star.ra = DecDeg + 'h ' + DecMin + 'm ' + DecSec + 's'
+
+    if (MAG != '' || MAG != undefined){
+        data.star.mag = MAG
+    }
+
+    if (Conste != '' && Conste != undefined){
+        data.star.const = Conste
+    }
+
+    data.star.story = Story
+
+    addBlock(data, res);
+    //res.status(204).send()
+    // res.render('registar');
 });
 
 app.get('/requestValidation', function(req, res){

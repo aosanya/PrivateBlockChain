@@ -40,7 +40,7 @@ class Adapter{
         if (block !== undefined){
             return JSON.parse(block.value);
         }
-        return nil
+        return undefined
    }
 }
 

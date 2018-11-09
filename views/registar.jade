@@ -1,27 +1,31 @@
-form(method="POST", action="/start")
+form(method="POST", action="/registar")
  input(type="hidden", name="_method", value="PUT")
+ p Address
+    input(type="text", name="Address", style='width: 300px' value='155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV')
  p Right Ascension
   span(style='padding-right: 10px')
-    input(type="number", name="RAH", style='width: 50px', required='')
+    input(type="number", name="RAH", style='width: 50px', required='' value="1")
     span h*
   span(style='padding-right: 10px')
-    input(type="number", name="RAM", style='width: 50px', required='')
+    input(type="number", name="RAM", style='width: 50px', required='' value="1")
     span m*
   span(style='padding-right: 10px')
-    input(type="number", name="RASEC", style='width: 50px', required='')
+    input(type="number", name="RASEC", style='width: 50px', required='' value="1")
     span sec*
  p Declination
   span(style='padding-right: 10px')
-    input(type="number", name="DecDeg", style='width: 50px', required='')
+    input(type="number", name="DecDeg", style='width: 50px', required='' value="1")
     span deg*
   span(style='padding-right: 10px')
-    input(type="number", name="DecMin", style='width: 50px', required='')
+    input(type="number", name="DecMin", style='width: 50px', required='' value="1")
     span min*
   span(style='padding-right: 10px')
-    input(type="number", name="DecSec", style='width: 50px', required='')
+    input(type="number", name="DecSec", style='width: 50px', required='' value="1")
     span sec*
  p Constellation
-  select
+  select(name='Conste')
+        optgroup(label='Select Constellation')
+            option(value='') Select Constellation
             option(value='And') Andromeda
             option(value='Ant') Antlia
             option(value='Aps') Apus
@@ -111,8 +115,8 @@ form(method="POST", action="/start")
             option(value='Vol') Volans
             option(value='Vul') Vulpecula
  p Magnitude
-  input(type="number", name="MAG", style='width: 50px')
+  input(type="number", name="MAG", style='width: 50px' value="1")
  p Story
-  textarea(name="story", cols='40', rows='5', maxlength='250')
+  textarea(name="Story", cols='40', rows='5', maxlength='250'  required='' value="test")
  p
   input(type="submit")
