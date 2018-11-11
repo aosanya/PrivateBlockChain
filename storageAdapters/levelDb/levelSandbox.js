@@ -12,6 +12,7 @@ const levelDB =  require('./levelSandbox')
     return new Promise(function(resolve, reject) {
       db.createReadStream()
       .on('data', function (data) {
+        data.value = JSON.parse(data.value);
         dataArray.push(data);
       })
       .on('error', function (err) {

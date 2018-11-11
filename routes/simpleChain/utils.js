@@ -1,9 +1,6 @@
-const SimpleChain = require('./SimpleChain');
-const Block = require('../Block/Block');
-const Mempool = require('./Mempool');
+const SimpleChain = require('../../SimpleChain/SimpleChain');
 
 let chain = new SimpleChain();
-let mempool = new Mempool();
 
 module.exports.getStatus = () => {
     return new Promise(function(resolve, reject) {
@@ -17,23 +14,22 @@ module.exports.getBlock = (blockheight) => {
     });
 }
 
+module.exports.getBlocksForAddress = (address) => {
+    console.log(address)
+    return new Promise(function(resolve, reject) {
+        resolve(chain.getBlocksForAddress(address));
+    });
+}
+
+module.exports.getBlocksWithHash = (hash) => {
+    return new Promise(function(resolve, reject) {
+        resolve(chain.getBlocksWithHash(hash));
+    });
+}
+
 module.exports.addBlock = (newBlock) => {
     return new Promise(function(resolve, reject) {
         let response = chain.addBlock(newBlock);
-        resolve(response);
-    });
-}
-
-module.exports.requestValidation = (message) => {
-    return new Promise(function(resolve, reject) {
-        mempool.requestValidation(message);
-        resolve();
-    });
-}
-
-module.exports.verifyMessage = (address, signature) => {
-    return new Promise(function(resolve, reject) {
-        let response = mempool.verifyMessage(address, signature);
         resolve(response);
     });
 }

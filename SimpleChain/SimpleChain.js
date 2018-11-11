@@ -115,10 +115,20 @@ class SimpleChain{
       return this.chain !== undefined ? this.chain.length - 1 : -1;
     }
 
-    // get block
+    // get block at a given height
     getBlock(blockHeight){
       // return object as a single string
       return this.storageAdapter.getBlock(blockHeight)
+    }
+
+    // get Blocks For a given Address
+    getBlocksForAddress(address){
+      return this.storageAdapter.getBlocksForAddress(address)
+    }
+
+    // get Blocks with a given hash
+    getBlocksWithHash(hash){
+      return this.storageAdapter.getBlocksWithHash(hash)
     }
 
     // to move certain components to block

@@ -38,10 +38,31 @@ class Adapter{
         // return object as a single string
         let block = this.data.filter((k) => k.key == blockHeight)[0]
         if (block !== undefined){
-            return JSON.parse(block.value);
+            return block.value;
         }
         return undefined
    }
+
+   // get blocks with adress
+   getBlocksForAddress(address){
+        // return object as a single string
+        var results = []
+        for(var i=1; i < this.data.length;i++){
+            if(this.data[i].value.body.address == address){
+                results.push(this.data[i].value)
+            }
+        }
+        return results
+    }
+
+    //get block with hash of
+    getBlocksWithHash(hash){
+        let block = this.data.filter((k) => k.value.hash == hash)[0]
+        if (block !== undefined){
+            return block.value;
+        }
+        return undefined
+    }
 }
 
 module.exports = Adapter
