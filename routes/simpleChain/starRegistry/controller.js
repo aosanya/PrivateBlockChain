@@ -1,6 +1,8 @@
 const simpleChainUtils = require('../utils')
+
 const Block = require('../../../Block/Block');
 const coder = require('../../../utils/coder')
+const auth = require('../../auth/utils')
 module.exports = {
 
     getBlock : function(req, res) {
@@ -20,6 +22,13 @@ module.exports = {
     },
 
     postRegistar : function(req, res){
+        console.log("--- --- 1 --- ---")
+        console.log(req)
+        console.log("--- --- 2 --- ---")
+        if (auth.isValidated(req.body.Address) == false){
+            res.status = 403;
+            res.end("Message is not validate!")
+        }
         fs = require('fs')
         var data = {}
         data.address = req.body.Address;

@@ -29,8 +29,6 @@ module.exports = {
         console.log(signature)
         verifyMessage(address, signature, res)
     }
-
-
 }
 
 var requestValidation = function(address,res){

@@ -1,5 +1,6 @@
 const utils = require('./utils')
 const Block = require('../../Block/Block');
+const auth = require('../auth/utils')
 
 module.exports = {
     getStatus : function(req, res) {
@@ -20,6 +21,13 @@ module.exports = {
         })
     },
     postBlock: function(req,res){
+        console.log("--- --- 1 --- ---")
+        console.log(req)
+        console.log("--- --- 2 --- ---")
+        if (auth.isValidated(req.body.Address) == false){
+            res.status = 403;
+            res.end("Message is not validate!")
+        }
         let data=req.body;
         if (data == undefined) {
             res.status = 412;

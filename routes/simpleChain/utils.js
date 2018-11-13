@@ -1,5 +1,4 @@
 const SimpleChain = require('../../SimpleChain/SimpleChain');
-
 let chain = new SimpleChain();
 
 module.exports.getStatus = () => {

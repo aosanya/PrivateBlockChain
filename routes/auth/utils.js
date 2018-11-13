@@ -1,6 +1,5 @@
 const Tokens = require('../../SimpleChain/auth/tokens');
-
-let tokens = new Tokens();
+global.tokens = new Tokens();
 
 module.exports.requestValidation = (message) => {
     return new Promise(function(resolve, reject) {
@@ -14,4 +13,12 @@ module.exports.verifyMessage = (address, signature) => {
         let response = tokens.verifyMessage(address, signature);
         resolve(response);
     });
+}
+
+module.exports.isValidated = (address) => {
+    console.log("Here 1")
+    console.log("Here 2")
+    let response = tokens.isValidated(address);
+    return response;
+
 }

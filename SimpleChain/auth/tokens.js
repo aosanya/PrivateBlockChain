@@ -2,6 +2,7 @@
 class Tokens{
     constructor(){
         this.messageTokens = []
+        console.log("Created New Tokens")
     }
 
     requestValidation(message){
@@ -14,16 +15,12 @@ class Tokens{
         const bitcoinMessage = require('bitcoinjs-message')
         const myMessages = this.messageTokens.filter((k) => k.address == address)
 
-
-
         let response = {}
         response.registerStar = true
         response.status = {}
         response.status.address = address
 
         if (myMessages.length == 0){
-            console.log(address)
-            console.log(this.messageTokens)
             response.status = "Please request a validtion token at 'requestValidation'"
             return response
         }
@@ -55,7 +52,6 @@ class Tokens{
                     return response
                 }
             } catch(e) {
-                console.log(e.message)
                 return e.message
             }
         }
@@ -65,6 +61,25 @@ class Tokens{
         return response
     }
 
+    isValidated(address){
+        console.log(this.messageTokens)
+        console.log(address)
+        const myMessages = this.messageTokens.filter((k) => k.address == address && k.isValid == true)
+        console.log(myMessages)
+
+        for (var i = 0; i < myMessages.length; i++) {
+            let currentTimeStamp = new Date().getTime().toString().slice(0,-3);
+            let messageAge = currentTimeStamp - myMessages[i].requestTimeStamp
+
+            let isStale = (messageAge) > myMessages[i].validationWindow
+            if (isStale == false){
+                return true
+            }
+        }
+        console.log("Here 2.1")
+        return false
+
+    }
 
 }
 
