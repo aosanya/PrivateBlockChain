@@ -118,3 +118,22 @@ You should get a response(of the new block) similar to:
 	"body":"test1",
 	"time":"1540319399"
 }
+
+## Using the Blockchain Api as a (Stars)Notary
+Step 1 : Start the server
+```
+node app.js
+```
+Step 2 : Request a message to sign by going to the URL: http://localhost:8000/requestValidation
+Step 3 : Provide your public address and press Submit
+```
+You should get a response similar to:
+{
+	"address":"12809821jjlkjlj18281928712897210",
+	"requestTimeStamp":"1542226205",
+	"message":"12809821jjlkjlj18281928712897210:1542226205:starRegistry",
+	"validationWindow":10,
+	"isValid":false
+}
+Step 4 : For this address to post into the blockchain notary, it will have to be verified.
+To verify the message in step 3, go to URL :

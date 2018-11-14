@@ -1,13 +1,33 @@
-
+const validationWindow = 300;
 class Tokens{
     constructor(){
         this.messageTokens = []
-        console.log("Created New Tokens")
+        this.timeoutRequests = {}
+
     }
 
     requestValidation(message){
-        message.isValid = false
-        this.messageTokens.push(message)
+        //If the user re-submits a request, the application will not add a new request;
+        //instead, it will return the same request that it is already in the mempool.
+        const existing = this.messageTokens.filter((k) => k.address == message.address)
+        if (existing.length == 0){
+            message.isValid = false
+            this.messageTokens.push(message)
+            const that = this
+            message.validationWindow = validationWindow
+            this.timeoutRequests[message.address]=setTimeout(function(){that.removeValidationRequest(message.address) }, message.validationWindow * 1000);
+            return message
+        }
+
+        let currentTimeStamp = new Date().getTime().toString().slice(0,-3);
+        let messageAge = currentTimeStamp - existing[0].requestTimeStamp
+        existing[0].validationWindow = validationWindow - messageAge
+        return existing[0]
+    }
+
+    removeValidationRequest(address){
+        this.messageTokens = this.messageTokens.filter((k) => k.address != address)
+        delete this.timeoutRequests[address]
         return
     }
 
@@ -62,10 +82,7 @@ class Tokens{
     }
 
     isValidated(address){
-        console.log(this.messageTokens)
-        console.log(address)
         const myMessages = this.messageTokens.filter((k) => k.address == address && k.isValid == true)
-        console.log(myMessages)
 
         for (var i = 0; i < myMessages.length; i++) {
             let currentTimeStamp = new Date().getTime().toString().slice(0,-3);

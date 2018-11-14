@@ -1,8 +1,8 @@
 const simpleChainUtils = require('../utils')
 
-const Block = require('../../../Block/Block');
+
 const coder = require('../../../utils/coder')
-const auth = require('../../auth/utils')
+
 module.exports = {
 
     getBlock : function(req, res) {
@@ -18,17 +18,11 @@ module.exports = {
         })
     },
     renderRegistar : function(req, res){
-        res.render('registar');
+        res.render('registar', {title: 'Registar'});
     },
 
     postRegistar : function(req, res){
-        console.log("--- --- 1 --- ---")
-        console.log(req)
-        console.log("--- --- 2 --- ---")
-        if (auth.isValidated(req.body.Address) == false){
-            res.status = 403;
-            res.end("Message is not validate!")
-        }
+
         fs = require('fs')
         var data = {}
         data.address = req.body.Address;
@@ -56,19 +50,7 @@ module.exports = {
         }
 
         data.star.story = Story
-
-        if (data == undefined) {
-            res.status = 412;
-            res.end("412!");
-        }
-        else{
-            let newBlock = new Block(data);
-            simpleChainUtils.addBlock(newBlock).then((response) => {
-                res.send(response)
-            })
-        }
-        //res.status(204).send()
-        // res.render('registar');
+        simpleChainUtils.postBlock(req, res, data)
     },
     getStarsForAddress : function(req, res) {
         //secure this from injection

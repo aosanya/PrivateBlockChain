@@ -1,5 +1,7 @@
 const SimpleChain = require('../../SimpleChain/SimpleChain');
 let chain = new SimpleChain();
+const auth = require('../auth/utils')
+const Block = require('../../Block/Block');
 
 module.exports.getStatus = () => {
     return new Promise(function(resolve, reject) {
@@ -31,4 +33,22 @@ module.exports.addBlock = (newBlock) => {
         let response = chain.addBlock(newBlock);
         resolve(response);
     });
+}
+
+module.exports.postBlock = (req, res, data) => {
+    if (auth.isValidated(req.body.Address) == false){
+        res.status = 403;
+        res.end("Message is not validate!")
+    }
+
+    if (data == undefined) {
+        res.status = 412;
+        res.end("412!");
+    }
+    else{
+        let newBlock = new Block(data);
+        exports.addBlock(newBlock).then((response) => {
+            res.send(response)
+        })
+    }
 }

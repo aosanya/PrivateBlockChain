@@ -6,7 +6,7 @@ module.exports = {
         requestValidation(address, res)
     },
     renderRequestValidation : function(req, res){
-        res.render('requestValidation');
+        res.render('requestValidation', {title: 'Request Validation'});
     },
     postRequestValidation : function(req, res){
         requestValidation(req.body.Address, res)
@@ -18,7 +18,7 @@ module.exports = {
     },
 
     renderVerifyMessage : function(req, res){
-        res.render('verifyMessage');
+        res.render('verifyMessage', {title: 'Verify Message'});
     },
 
     postVerifyMessage : (req, res) => {
@@ -36,10 +36,9 @@ var requestValidation = function(address,res){
     response.address = address
     response.requestTimeStamp = new Date().getTime().toString().slice(0,-3);
     response.message = response.address + ":" + response.requestTimeStamp + ":starRegistry";
-    response.validationWindow = 3000
 
-    utils.requestValidation(response).then(() => {
-        res.send(response)
+    utils.requestValidation(response).then((message) => {
+        res.send(message)
     })
 }
 

@@ -1,7 +1,10 @@
+extends ./layout
 
-form(method='POST', action='/requestValidation')
-    input(type='hidden', name='_method', value='PUT')
-    p Address
-        input(type="text", name="Address", style='width: 300px' value='155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV')
-    p
-        input(type='submit')
+block content
+    .form
+        form(method='POST', action='/requestValidation')
+            input(type='hidden', name='_method', value='PUT')
+            p
+                textarea(name="Address", cols='40', rows='2', maxlength='250'  required='' placeholder='Enter public address here...').textarea
+            p
+                input(type='submit').btn

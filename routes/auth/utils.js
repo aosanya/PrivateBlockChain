@@ -3,8 +3,8 @@ global.tokens = new Tokens();
 
 module.exports.requestValidation = (message) => {
     return new Promise(function(resolve, reject) {
-        tokens.requestValidation(message);
-        resolve();
+        const actualMessage = tokens.requestValidation(message);
+        resolve(actualMessage);
     });
 }
 
@@ -16,8 +16,6 @@ module.exports.verifyMessage = (address, signature) => {
 }
 
 module.exports.isValidated = (address) => {
-    console.log("Here 1")
-    console.log("Here 2")
     let response = tokens.isValidated(address);
     return response;
 
