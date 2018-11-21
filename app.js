@@ -28,7 +28,7 @@ app.use('/', simpleChainRoutes);
 app.use('/', starRoutes);
 app.use(function(req, res){
     res.status = 404
-    res.end("Error 404! You should not be back here.")
+    res.end("Error 404! You should not be back here. Staff only, sorry.")
 });
 //
 

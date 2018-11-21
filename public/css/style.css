@@ -82,11 +82,21 @@ li {
   width: 100%;
   max-width: 590px;
   padding: 10px;
-  display: flex;
   margin: 0 auto;
   border: 1px solid #dad7d7;
   border-radius: 3px;
   cursor: pointer;
+}
+
+.form-header {
+  border-radius: 4px;
+  border: 1px solid #dad7d7;
+  background-color: #dad7d7;
+  width: 100%;
+  text-align: center;
+  padding-top: 5px;
+  font-size: 18px;
+  height: 30px;
 }
 
 .tweet-info {
@@ -159,9 +169,17 @@ li {
   height: 100px;
 }
 
+.text-input {
+  border-radius: 4px;
+  border: 1px solid #dad7d7;
+  padding: 10px;
+  font-size: 15px;
+}
+
 .tweet-length {
   text-align: right;
   margin-top: 10px;
   font-size: 20px;
   color: #C3392A;
 }
+

@@ -1,10 +1,12 @@
 extends ./layout
 
 block content
+
     .form
-        form(method='POST', action='/verifyMessage')
+        form(method='POST', action='/message-signature/validate')
             input(type='hidden', name='_method', value='PUT')
-            textarea(name="Address", cols='40', rows='2', maxlength='250'  required='' placeholder='Enter public address here...').textarea
-            textarea(name="Signature", cols='40', rows='2', maxlength='500'  required='' placeholder='Enter message signature here...').textarea
+            p.form-header Validate Message
+            textarea(name="address", cols='40', rows='2', maxlength='250'  required='' placeholder='Enter public address here...').textarea
+            textarea(name="signature", cols='40', rows='2', maxlength='500'  required='' placeholder='Enter message signature here...').textarea
             p
                 input(type='submit').btn

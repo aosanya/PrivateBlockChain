@@ -21,8 +21,15 @@ module.exports = {
         res.render('registar', {title: 'Registar'});
     },
 
-    postRegistar : function(req, res){
+    renderStarSearch : function(req, res){
+        res.render('starSearch', {title: 'Search'});
+    },
 
+    searchStars : function(req, res){
+        console.log(req.body)
+    },
+
+    postRegistar : function(req, res){
         fs = require('fs')
         var data = {}
         data.address = req.body.Address;
@@ -50,6 +57,7 @@ module.exports = {
         }
 
         data.star.story = Story
+        data.star.storyDecoded = req.body.Story
         simpleChainUtils.postBlock(req, res, data)
     },
     getStarsForAddress : function(req, res) {
@@ -79,3 +87,4 @@ module.exports = {
         })
     },
 }
+

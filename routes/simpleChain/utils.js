@@ -36,10 +36,10 @@ module.exports.addBlock = (newBlock) => {
 }
 
 module.exports.postBlock = (req, res, data) => {
-    if (auth.isValidated(req.body.Address) == false){
-        res.status = 403;
-        res.end("Message is not validate!")
-    }
+    // if (auth.isValidated(req.body.Address) == false){
+    //     res.status = 403;
+    //     res.end("Message is not validated!")
+    // }
 
     if (data == undefined) {
         res.status = 412;

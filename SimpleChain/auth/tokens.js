@@ -1,4 +1,4 @@
-const validationWindow = 300;
+const validationWindow = 1000;
 class Tokens{
     constructor(){
         this.messageTokens = []
@@ -36,7 +36,7 @@ class Tokens{
         const myMessages = this.messageTokens.filter((k) => k.address == address)
 
         let response = {}
-        response.registerStar = true
+        response.registerStar = false
         response.status = {}
         response.status.address = address
 
@@ -56,11 +56,11 @@ class Tokens{
 
                 if (result == true){
                     if (isStale == false){
+                        response.registerStar = true
                         response.status.requestTimeStamp = myMessages[i].requestTimeStamp
                         response.status.message = myMessages[i].message
                         response.status.validationWindow = myMessages[i].validationWindow - messageAge
                         response.status.messageSignature = "valid"
-                        myMessages[i].isValid = true
                     }
                     else{
                         response.status.requestTimeStamp = myMessages[i].requestTimeStamp

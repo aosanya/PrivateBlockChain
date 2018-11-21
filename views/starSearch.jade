@@ -1,0 +1,16 @@
+extends ./layout
+
+block content
+
+    .form
+        form(method='POST', action='/stars')
+            input(type='hidden', name='_method', value='PUT')
+            p.form-header Search for stars
+            p
+                textarea(name="address", cols='40', rows='2', maxlength='250' placeholder='Enter the wallet address here').textarea
+            p
+                textarea(name="hash", cols='40', rows='2', maxlength='250' placeholder='Enter the star\'s hash here').textarea
+            p
+                input(name="height" type='text' value='' placeholder='Enter block height here').text-input
+            p
+                input(type='submit' value='Search').btn

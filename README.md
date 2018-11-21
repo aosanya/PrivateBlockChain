@@ -119,21 +119,92 @@ You should get a response(of the new block) similar to:
 	"time":"1540319399"
 }
 
-## Using the Blockchain Api as a (Stars)Notary
-Step 1 : Start the server
+# Using the Blockchain Api as a (Stars)Notary
+## Start the server
+Step 1 : Enter the following command in the terminal
 ```
 node app.js
 ```
-Step 2 : Request a message to sign by going to the URL: http://localhost:8000/requestValidation
-Step 3 : Provide your public address and press Submit
+## Request Validation
+Step 1 : Request a message to sign by going to the URL: http://localhost:8000/requestValidation
+Step 2 : Provide your public address and press Submit
 ```
 You should get a response similar to:
+{"address":"155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV",
+"requestTimeStamp":"1542687172",
+"message":"155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV:1542687172:starRegistry",
+"isValid":false,"validationWindow":300}
+```
+### Request Validation using Curl
+Request validation can be done using curl:
+```
+curl -X POST \
+  http://localhost:8000/requestValidation \
+  -H 'Content-Type: application/json' \
+  -H 'cache-control: no-cache' \
+  -d '{
+    "address":"155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV"
+}'
+```
+
+## Verify Message
+For this address to post into the blockchain notary, it will have to be verified.
+Step 1 : Go to the URL : http://localhost:8000/verifyMessage
+Step 2 : Enter the address your public address and the message you signed
+For example
+	 Address : 155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV
+	 Signed Message : IJmigTeMeniOwxBwQq6CHGbKhpnFnJl8/bqMArmSbTy9BFyBsbrKa0Horx6hUBuWp4p4vOWubgn8sQFdzspq5Hk=
+Step 3 : Press Submit. This should give you a verrification message
+```
 {
-	"address":"12809821jjlkjlj18281928712897210",
-	"requestTimeStamp":"1542226205",
-	"message":"12809821jjlkjlj18281928712897210:1542226205:starRegistry",
-	"validationWindow":10,
-	"isValid":false
+	"registerStar":true,
+	"status":{
+		"address":"155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV",
+		"requestTimeStamp":"1542687172",
+		"message":"155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV:1542687172:starRegistry",
+		"validationWindow":166,"
+		messageSignature":"valid"
+		}
 }
-Step 4 : For this address to post into the blockchain notary, it will have to be verified.
-To verify the message in step 3, go to URL :
+```
+### Verify Message using Curl
+A message can be verified using curl as well:
+```
+curl -X POST \
+  http://localhost:8000/message-signature/validate \
+  -H 'Content-Type: application/json' \
+  -H 'cache-control: no-cache' \
+  -d '{
+"address":"155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV",
+ "signature":"IKNYd23P1Lys9CzWeop4T4wG347DastamMSroJuGX/T4MDiKPWY3XrDCsVzi603Lzy3N470ovwgpbi7lrojlj0Q="
+}'
+```
+## Store Star Data in the Blockchain
+Step 1. Navigate to : http://localhost:8000/Registar
+Step 2. Enter public address and star data
+Step 3. Press submit. You should get a response as similar to the json below:
+{
+     "hash": "a59e9e399bc17c2db32a7a87379a8012f2c8e08dd661d7c0a6a4845d4f3ffb9f",
+      "height": 1,
+      "body": {
+           "address": "142BDCeSGbXjWKaAnYXbMpZ6sbrSAo3DpZ",
+           "star": {
+                "ra": "16h 29m 1.0s",
+                "dec": "-26° 29' 24.9",
+                "story":
+        "466f756e642073746172207573696e672068747470733a2f2f7777772e676f6f676c652e636f6d2f736b792f",
+                "storyDecoded": "Found star using https://www.google.com/sky/"
+             }
+       },
+      "time": "1532296234",
+       "previousBlockHash": "49cce61ec3e6ae664514d5fa5722d86069cf981318fc303750ce66032d0acff3"
+}
+
+## Get star block by hash with JSON response.
+
+To get a star by hash, use the following path : URL: http://localhost:8000/stars/hash:[HASH]
+
+## Get star block by wallet address (blockchain identity) with JSON response.
+
+To get a star by wallet address, use the following path : URL: http://localhost:8000/stars/address:[ADDRESS]
+

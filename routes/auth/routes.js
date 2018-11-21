@@ -9,6 +9,6 @@ router.route('/requestValidation').post(controller.postRequestValidation);
 
 router.route('/message-signature/:address/:signature(*)').post(controller.verifyMessage);
 
-router.route('/verifyMessage').get(controller.renderVerifyMessage);
-router.route('/verifyMessage').post(controller.postVerifyMessage);
+router.route('/message-signature/validate').get(controller.renderVerifyMessage);
+router.route('/message-signature/validate').post(controller.postVerifyMessage);
 module.exports = router;

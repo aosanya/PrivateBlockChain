@@ -9,7 +9,7 @@ module.exports = {
         res.render('requestValidation', {title: 'Request Validation'});
     },
     postRequestValidation : function(req, res){
-        requestValidation(req.body.Address, res)
+        requestValidation(req.body.address, res)
     },
     verifyMessage : function(req, res) {
         let address=req.params.address;
@@ -22,11 +22,8 @@ module.exports = {
     },
 
     postVerifyMessage : (req, res) => {
-        let address=req.body.Address;
-        let signature=req.body.Signature;
-        console.log("-- -- -- -- -- --")
-        console.log(address)
-        console.log(signature)
+        let address=req.body.address;
+        let signature=req.body.signature;
         verifyMessage(address, signature, res)
     }
 }
