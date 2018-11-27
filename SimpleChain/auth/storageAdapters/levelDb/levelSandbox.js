@@ -3,7 +3,7 @@
 |  =============================================================*/
 
 const level = require('level');
-const chainDB = './chaindata';
+const chainDB = './data/tokenData';
 const db = level(chainDB);
 const levelDB =  require('./levelSandbox')
 
@@ -26,7 +26,7 @@ const levelDB =  require('./levelSandbox')
 
   // Add data to levelDB with key/value pair
   module.exports.addLevelDBData = (key,value) => {
-
+    console.log(key)
     return new Promise(function(resolve, reject) {
       db.put(key, value, function(err) {
         if (err) reject(err)
@@ -45,20 +45,18 @@ const levelDB =  require('./levelSandbox')
     });
   }
 
-  // Add data to levelDB with value
-  module.exports.addDataToLevelDB = (value) => {
+
+  // Delete data to levelDB with value
+  module.exports.deleteData = (key) => {
     let i = 0;
     return new Promise(function(resolve, reject) {
-      db.createReadStream().on('data', function(data) {
-        i++;
-      }).on('error', function(err) {
-        reject(err)
-      }).on('close', function() {
-        levelDB.addLevelDBData(i, value).then(function() {
-          resolve()
-        }, function(err) {
+      db.del(key, function (err) {
+        if (err){
           reject(err)
-        });
+        }
+        else{
+          resolve()
+        }
       });
     });
   }
