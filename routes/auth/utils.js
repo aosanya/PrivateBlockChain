@@ -17,6 +17,7 @@ module.exports.verifyMessage = (address, signature) => {
 
 module.exports.isValidated = (address) => {
     let response = tokens.isValidated(address);
-    return response;
 
+    //console.log(response)
+    return response;
 }

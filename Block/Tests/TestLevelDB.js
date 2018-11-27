@@ -1,6 +1,5 @@
-const levelDB = require('../../storageAdapters/levelDb/levelSandbox');
+const levelDB = require('../../SimpleChain/storageAdapters/levelDb/levelSandbox');
 const Block = require('../Block');
-
 
 let newBlock = new Block('Test Data 1');
 let str = JSON.stringify(newBlock)

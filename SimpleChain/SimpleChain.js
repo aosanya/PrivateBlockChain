@@ -4,8 +4,7 @@
 
 const SHA256 = require('crypto-js/sha256');
 const Block = require('../Block/Block')
-const events = require('events');
-const Adapter = require('../storageAdapters/levelDb/Adapter');
+const Adapter = require('./storageAdapters/levelDb/Adapter');
 const Mempool = require('./Mempool')
 
 /* ===== SimpleChain Class ==========================
@@ -15,8 +14,10 @@ const Mempool = require('./Mempool')
 class SimpleChain{
   constructor(){
     this.storageAdapter = new Adapter();
+    // Code sequence important : First wire events then load data
     this.wireEvents()
-    this.storageAdapter.loadData() // This is done here so that the class can recieve events
+    this.storageAdapter.loadData()
+    //
     this.chain = []
     this.isAddingBlock = false
     this.mempool = new Mempool
@@ -66,6 +67,7 @@ class SimpleChain{
   blockAdded(){
     this.mempool.pool.shift()
     this.isAddingBlock = false
+
   }
 
   processMempool(){
@@ -99,7 +101,6 @@ class SimpleChain{
       // UTC timestamp
       newBlock.time = new Date().getTime().toString().slice(0,-3);
       // previous block hash
-      console.log(this.getBlockHeight())
       if(this.getBlockHeight() > -1){
         newBlock.previousBlockHash = this.getBlock(this.getBlockHeight()).hash;
       }

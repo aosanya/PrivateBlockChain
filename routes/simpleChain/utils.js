@@ -16,7 +16,6 @@ module.exports.getBlock = (blockheight) => {
 }
 
 module.exports.getBlocksForAddress = (address) => {
-    console.log(address)
     return new Promise(function(resolve, reject) {
         resolve(chain.getBlocksForAddress(address));
     });
@@ -36,19 +35,24 @@ module.exports.addBlock = (newBlock) => {
 }
 
 module.exports.postBlock = (req, res, data) => {
-    // if (auth.isValidated(req.body.Address) == false){
-    //     res.status = 403;
-    //     res.end("Message is not validated!")
-    // }
+    if (auth.isValidated(req.body.address) == false){
+        res.status = 403;
+        res.end("Message is not validated!")
+        return
+    }
 
     if (data == undefined) {
         res.status = 412;
         res.end("412!");
+        return
     }
     else{
         let newBlock = new Block(data);
+
         exports.addBlock(newBlock).then((response) => {
+            tokens.removeValidationRequest(req.body.address);
             res.send(response)
+            return
         })
     }
 }

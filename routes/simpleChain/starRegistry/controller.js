@@ -26,13 +26,13 @@ module.exports = {
     },
 
     searchStars : function(req, res){
-        console.log(req.body)
+        //console.log(req.body)
     },
 
     postRegistar : function(req, res){
         fs = require('fs')
         var data = {}
-        data.address = req.body.Address;
+        data.address = req.body.address;
         data.star = {}
 
         const RAH = req.body.RAH;
@@ -58,6 +58,7 @@ module.exports = {
 
         data.star.story = Story
         data.star.storyDecoded = req.body.Story
+        //console.log(data)
         simpleChainUtils.postBlock(req, res, data)
     },
     getStarsForAddress : function(req, res) {

@@ -133,7 +133,8 @@ You should get a response similar to:
 {"address":"155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV",
 "requestTimeStamp":"1542687172",
 "message":"155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV:1542687172:starRegistry",
-"isValid":false,"validationWindow":300}
+"valid":false,
+"validationWindow":300}
 ```
 ### Request Validation using Curl
 Request validation can be done using curl:
