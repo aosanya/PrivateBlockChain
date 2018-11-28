@@ -29,6 +29,11 @@ module.exports = {
 }
 
 var requestValidation = function(address,res){
+    if (address == undefined){
+        res.status = 412;
+        res.send("Please provide a valid address.")
+        return
+    }
     let response = {};
     response.address = address
     response.requestTimeStamp = new Date().getTime().toString().slice(0,-3);

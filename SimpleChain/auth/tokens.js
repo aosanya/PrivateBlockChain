@@ -1,5 +1,5 @@
 const Adapter = require('./storageAdapters/levelDb/Adapter')
-const validationWindow = 1000;
+const validationWindow = 300;
 class Tokens{
     constructor(){
         this.storageAdapter = new Adapter();
@@ -113,7 +113,7 @@ class Tokens{
 
     verifyMessage(address, signature){
         const bitcoinMessage = require('bitcoinjs-message')
-        const myMessages = this.messageTokens.filter((k) => k.value.address == address)
+          const myMessages = this.messageTokens.filter((k) => k.key == address)
 
         let response = {}
         response.registerStar = false

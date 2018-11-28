@@ -43,7 +43,7 @@ module.exports = {
         const DecSec = req.body.DecSec;
         const Conste = req.body.Conste;
         const MAG = req.body.MAG;
-        const Story = coder.utf8ToHex(req.body.Story);
+        //const Story = coder.utf8ToHex(req.body.Story);
 
         data.star.dec =  RAH + '° ' + RAM +  "' " +  RASEC
         data.star.ra = DecDeg + 'h ' + DecMin + 'm ' + DecSec + 's'
@@ -56,8 +56,8 @@ module.exports = {
             data.star.const = Conste
         }
 
-        data.star.story = Story
-        data.star.storyDecoded = req.body.Story
+        //data.star.story = Story
+        //data.star.storyDecoded = req.body.Story
         //console.log(data)
         simpleChainUtils.postBlock(req, res, data)
     },
@@ -66,6 +66,7 @@ module.exports = {
         simpleChainUtils.getBlocksForAddress(req.params.address).then((blocks) => {
             if (blocks == undefined){
                 res.send('No block for ' +  req.params.address)
+                return
             }
             else{
                 blocks.forEach(function(block){

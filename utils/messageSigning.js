@@ -26,7 +26,7 @@ console.log("Public Key : " + publicKey)
 const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey })
 console.log(address)
 
-var message = "155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV:1543293746:starRegistry"
+var message = "155wiwAx1VoKpJeS2YompHEHFyhfoLA3mV:1543378134:starRegistry"
 
 var signature = bitcoinMessage.sign(message, keyPair.privateKey, keyPair.compressed)
 let kP = bitcoin.ECPair.makeRandom()
